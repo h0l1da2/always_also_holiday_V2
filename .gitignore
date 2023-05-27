@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application.yml
+/gradle/
+/src/main/resources/static/
+/gradlew
+/gradlew.bat
+/settings.gradle
