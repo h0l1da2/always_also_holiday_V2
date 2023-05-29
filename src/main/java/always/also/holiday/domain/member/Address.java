@@ -17,4 +17,13 @@ public class Address {
     private String extraAddress;
     private String postcode;
     private String detail;
+
+    public Address() {}
+
+    public Address(MemberJoinDto memberJoinDto) {
+        this.address = memberJoinDto.getAddress();
+        this.extraAddress = memberJoinDto.getExtraAddress();
+        this.postcode = memberJoinDto.getPostcode();
+        this.detail = memberJoinDto.getDetail();
+    }
 }
