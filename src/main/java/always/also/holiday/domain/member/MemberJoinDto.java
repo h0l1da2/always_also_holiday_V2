@@ -15,12 +15,11 @@ public class MemberJoinDto {
     private String extraAddress;
     private String email;
     private String mobile;
-    private String code;
 
     public MemberJoinDto() {
     }
 
-    public MemberJoinDto(String username, String password, String name, String nickname, String address, String postcode, String detail, String extraAddress, String email, String mobile, String code) {
+    public MemberJoinDto(String username, String password, String name, String nickname, String address, String postcode, String detail, String extraAddress, String email, String mobile) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -31,6 +30,5 @@ public class MemberJoinDto {
         this.extraAddress = extraAddress;
         this.email = email;
         this.mobile = mobile;
-        this.code = code;
     }
 }

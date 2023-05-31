@@ -63,7 +63,7 @@ class MemberRepositoryTest {
 
     private Member getMember() {
         return new Member(new MemberJoinDto(
-                "username","password","name","nickname","address","postcode","detail","extra","email@email.com","mobile","code"
+                "username","password","name","nickname","address","postcode","detail","extra","email@email.com","mobile"
         ));
     }
 }

@@ -3,6 +3,7 @@ package always.also.holiday.controller;
 import always.also.holiday.domain.member.Member;
 import always.also.holiday.domain.member.MemberJoinDto;
 import always.also.holiday.exception.DuplicateException;
+import always.also.holiday.service.EmailService;
 import always.also.holiday.service.MemberService;
 import always.also.holiday.service.WebService;
 import com.google.gson.JsonObject;
@@ -11,16 +12,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 @Controller
 @RequestMapping("/member")
 public class MemberJoinController {
 
     private final WebService webService;
     private final MemberService memberService;
+    private final EmailService emailService;
 
-    public MemberJoinController(WebService webService, MemberService memberService) {
+    public MemberJoinController(WebService webService, MemberService memberService, EmailService emailService) {
         this.webService = webService;
         this.memberService = memberService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/join")
@@ -29,7 +34,22 @@ public class MemberJoinController {
         return "member/joinForm";
     }
 
-    // TODO 회원가입 로직 작성
+    // TODO Email Code 전송
+    @ResponseBody
+    @PostMapping("/emailSend")
+    public ResponseEntity<String> emailSend(@RequestParam String email) {
+        JsonObject jsonObject = new JsonObject();
+        try {
+            String randomCode = emailService.joinCodeSend(email);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            jsonObject.addProperty("error", "SEND_ERROR");
+            webService.badResponseEntity(jsonObject);
+        }
+        jsonObject.addProperty("body", "SEND_OK");
+        return webService.okResponse(jsonObject);
+    }
+
     @ResponseBody
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody MemberJoinDto memberJoinDto) {
