@@ -1,3 +1,4 @@
+// Querydsl 버전 plugins 위에 추가
 buildscript {
 	ext {
 		queryDslVersion = "5.0.0"
@@ -10,12 +11,15 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	// querydsl 플러그인 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id "io.franzbecker.gradle-lombok" version "3.0.0"
+
 }
 
 group = 'always.also'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+// querydsl이 compileClassPath를 상속하도록 설정
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -42,15 +46,26 @@ dependencies {
 	// querydsl 디펜던시 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation("org.junit.vintage:junit-vintage-engine") {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
+	}
+	apply plugin: 'io.spring.dependency-management'
 }
 
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// querydsl에서 사용할 경로 설정(현재 지정한 부분은 .gitignore에 포함됨)
 def querydslDir = "$buildDir/generated/querydsl"
+
 // JPA 사용 여부 및 사용할 경로 설정
 querydsl {
 	jpa = true
@@ -79,7 +94,6 @@ compileQuerydsl.doFirst {
 	if(file(querydslDir).exists() )
 		delete(file(querydslDir))
 }
-
-tasks.named('test') {
-	useJUnitPlatform()
+clean {
+	delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성위치
 }

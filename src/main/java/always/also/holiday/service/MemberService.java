@@ -51,7 +51,7 @@ public class MemberService {
         String encodePwd = pwdEncoding(member.getPassword());
         member.encodePassword(encodePwd);
 
-        return memberRepository.insertMember(member);
+        return memberRepository.save(member);
     }
 
 
