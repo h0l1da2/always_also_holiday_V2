@@ -1,6 +1,5 @@
 package always.also.holiday.domain.member;
 
-import lombok.Generated;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import java.util.Date;
 @Entity
 public class Member {
 
-    @Id @Generated
+    @Id @GeneratedValue
     private Long id;
 
     private String username;
@@ -22,10 +21,10 @@ public class Member {
     private String email;
     private String mobile;
 
-    private Date delete;
+    private Date remove;
     private Date stop;
     private Date lastLogin;
-    private Date join;
+    private Date created;
     private Date pwdChange;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
@@ -44,7 +43,7 @@ public class Member {
         this.nickname = memberJoinDto.getNickname();
         this.email = memberJoinDto.getEmail();
         this.mobile = memberJoinDto.getMobile();
-        this.join = new Date();
+        this.created = new Date();
         this.pwdChange = new Date();
         this.role = new Role(Name.ROLE_USER);
         this.address = new Address(memberJoinDto);
