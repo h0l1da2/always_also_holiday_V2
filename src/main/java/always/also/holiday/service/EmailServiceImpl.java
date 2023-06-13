@@ -1,5 +1,6 @@
 package always.also.holiday.service;
 
+import always.also.holiday.domain.Mail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -36,9 +37,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String joinCodeSend(String userEmail) throws MessagingException {
+    public String joinCodeSend(Mail mail, String userEmail) throws MessagingException {
         randomCode = createCode();
-        MimeMessage template = setTemplate("JOIN", userEmail, randomCode);
+        MimeMessage template = setTemplate(mail, userEmail, randomCode);
         sendMail(template);
         return randomCode;
     }
@@ -62,12 +63,12 @@ public class EmailServiceImpl implements EmailService {
         return builder.toString();
     }
     @Override
-    public MimeMessage setTemplate(String type, String userEmail, String randomCode) throws MessagingException {
+    public MimeMessage setTemplate(Mail type, String userEmail, String randomCode) throws MessagingException {
 
         String key = "";
         String value = "";
 
-        if (type.equals("JOIN")) {
+        if (type.equals(Mail.JOIN)) {
             title = "오늘도 휴일 * 가입 코드 전송";
             template = "email/joinMailForm";
             // randomCode , template , key=randomCode , value = code

@@ -1,5 +1,7 @@
 package always.also.holiday.service;
 
+import always.also.holiday.domain.Mail;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -14,9 +16,9 @@ public interface EmailService {
      * 2-3. 전송
      * 3. return 코드
      */
-    String joinCodeSend(String userEmail) throws MessagingException; // 1, 3
+    String joinCodeSend(Mail mail, String userEmail) throws MessagingException; // 1, 3
     String createCode(); // 2-1
-    Message setTemplate(String type, String userEmail, String randomCode) throws MessagingException;
+    Message setTemplate(Mail type, String userEmail, String randomCode) throws MessagingException;
     String getContext(String key, String value, String template);
     void sendMail(MimeMessage message); // 2-3
 

@@ -1,5 +1,6 @@
 package always.also.holiday.controller;
 
+import always.also.holiday.domain.Mail;
 import always.also.holiday.domain.member.Member;
 import always.also.holiday.domain.member.MemberJoinDto;
 import always.also.holiday.exception.DuplicateException;
@@ -21,6 +22,7 @@ public class MemberJoinController {
     private final WebService webService;
     private final MemberService memberService;
     private final EmailService emailService;
+    private String randomCode;
 
     public MemberJoinController(WebService webService, MemberService memberService, EmailService emailService) {
         this.webService = webService;
@@ -40,7 +42,7 @@ public class MemberJoinController {
     public ResponseEntity<String> emailSend(@RequestParam String email) {
         JsonObject jsonObject = new JsonObject();
         try {
-            String randomCode = emailService.joinCodeSend(email);
+            randomCode = emailService.joinCodeSend(Mail.JOIN, email);
         } catch (MessagingException e) {
             e.printStackTrace();
             jsonObject.addProperty("error", "SEND_ERROR");
