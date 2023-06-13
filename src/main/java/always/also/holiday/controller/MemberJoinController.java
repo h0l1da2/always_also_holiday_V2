@@ -42,7 +42,7 @@ public class MemberJoinController {
     public ResponseEntity<String> emailSend(@RequestParam String email) {
         JsonObject jsonObject = new JsonObject();
         try {
-            randomCode = emailService.joinCodeSend(Mail.JOIN, email);
+            randomCode = emailService.mailSend(Mail.JOIN, email);
         } catch (MessagingException e) {
             e.printStackTrace();
             jsonObject.addProperty("error", "SEND_ERROR");

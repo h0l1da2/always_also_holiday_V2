@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
     private String title;
     private String template;
 
-    private String randomCode;
+    private String randomCode = "";
     private final String charset = "UTF-8";
     private final String html = "html";
 
@@ -37,11 +37,15 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String joinCodeSend(Mail mail, String userEmail) throws MessagingException {
-        randomCode = createCode();
+    public String mailSend(Mail mail, String userEmail) throws MessagingException {
+        String result = "";
+        if (mail.equals(Mail.JOIN)) {
+            randomCode = createCode();
+            result = randomCode;
+        }
         MimeMessage template = setTemplate(mail, userEmail, randomCode);
         sendMail(template);
-        return randomCode;
+        return result;
     }
 
     @Override

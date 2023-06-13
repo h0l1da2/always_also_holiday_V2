@@ -16,7 +16,7 @@ public interface EmailService {
      * 2-3. 전송
      * 3. return 코드
      */
-    String joinCodeSend(Mail mail, String userEmail) throws MessagingException; // 1, 3
+    String mailSend(Mail mail, String userEmail) throws MessagingException; // 1, 3
     String createCode(); // 2-1
     Message setTemplate(Mail type, String userEmail, String randomCode) throws MessagingException;
     String getContext(String key, String value, String template);
